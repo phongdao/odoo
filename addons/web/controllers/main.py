@@ -1672,9 +1672,9 @@ class Export(http.Controller):
 
         fields = self.fields_get(model)
         rec_name = request.env[model]._rec_name
-        if import_compat:
-            if parent_field_type in ['many2one', 'many2many']:
-                fields = {k: v for k, v in fields.items() if k in ['id', rec_name]}
+        if import_compat:            
+            if parent_field_type in ['many2one', 'many2many']:                
+                fields = {'id': fields['id'], 'name': fields[rec_name]}
         else:
             fields['.id'] = {**fields['id']}
 
@@ -1702,7 +1702,7 @@ class Export(http.Controller):
 
             id = prefix + (prefix and '/'or '') + field_name
             val = id
-            if field_name == rec_name and import_compat and parent_field_type in ['many2one', 'many2many']:
+            if field_name == 'name' and import_compat and parent_field_type in ['many2one', 'many2many']:
                 # Add name field when expand m2o and m2m fields in import-compatible mode
                 val = prefix
             name = parent_name + (parent_name and '/' or '') + field['string']
