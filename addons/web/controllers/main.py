@@ -1673,7 +1673,7 @@ class Export(http.Controller):
         fields = self.fields_get(model)
         if import_compat:
             if parent_field_type in ['many2one', 'many2many']:
-                fields = {'id': fields['id'], 'name': fields['name']}
+                fields = {'id': fields['id'], 'name': fields[request.env[model]._rec_name]}
         else:
             fields['.id'] = {**fields['id']}
 
